@@ -5,14 +5,32 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 public class DutchNationalFlag {
   public enum Color { RED, WHITE, BLUE }
 
+  /* Write a program that takes an array A and an index i into A, and rearranges the elements
+     such that all elements less than A[i] (the "pivot") appear first,
+     followed by elements equal to the pivot, followed by elements greater than the pivot.
+   */
   public static void dutchFlagPartition(int pivotIndex, List<Color> A) {
-    // TODO - you fill in here.
-    return;
+    Color pivot = A.get(pivotIndex);
+
+    //first pass to group smaller elements to left
+    int smallerPointer = 0;
+    for (int i=0; i < A.size(); i++) {
+      if (A.get(i).ordinal() < pivot.ordinal()) Collections.swap(A, smallerPointer++, i);
+    }
+
+    // second pass to move larger to the bottom
+    int largerPointer = A.size() - 1;
+    for(int i =  A.size()-1; i >= 0 && A.get(i).ordinal() >= pivot.ordinal(); i--) {
+      if(A.get(i).ordinal() > pivot.ordinal()) Collections.swap(A, i, largerPointer--);
+    }
   }
+
+
   @EpiTest(testDataFile = "dutch_national_flag.tsv")
   public static void dutchFlagPartitionWrapper(TimedExecutor executor,
                                                List<Integer> A, int pivotIdx)
