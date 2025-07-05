@@ -9,10 +9,22 @@ import java.util.Collections;
 import java.util.List;
 public class EvenOddArray {
 
+  //Your input is an array of integers, and you have to reorder its entries so that the even entries appear first
   public static void evenOdd(List<Integer> A) {
-    // TODO - you fill in here.
-    return;
+    int even = 0;
+    int odd = A.size()-1;
+    while (even < odd) {
+      if(A.get(even) % 2 == 0) {
+        even++;
+      } else {
+        int temp = A.get(even);
+        A.set(even, A.get(odd));
+        A.set(odd--, temp);
+//        odd--;
+      }
+    }
   }
+
   @EpiTest(testDataFile = "even_odd_array.tsv")
   public static void evenOddWrapper(TimedExecutor executor, List<Integer> A)
       throws Exception {
